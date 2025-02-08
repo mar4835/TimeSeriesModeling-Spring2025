@@ -1,0 +1,175 @@
+---
+title: "Employee Survey"
+author: "Marleny Tochihuitl"
+date: "2025-02-07"
+output: html_document 
+---
+## Q1 Header
+```{r}
+Typical_Employee_Survey_Data<- read.csv("/Users/marleny/Downloads/TimeSeriesModeling/HW1/Typical_Employee_Survey_Data.csv", header=FALSE)
+
+names(Typical_Employee_Survey_Data)[1] <- "Age"
+names(Typical_Employee_Survey_Data)[2] <- "Gender"
+names(Typical_Employee_Survey_Data)[3] <- "JobSatisfaction"
+names(Typical_Employee_Survey_Data)[4] <- "ImportanceOfJobCharacteristic"
+names(Typical_Employee_Survey_Data)[5] <- "YearsWorked"
+names(Typical_Employee_Survey_Data)[6] <- "LikelyOfPromotion"
+names(Typical_Employee_Survey_Data)[7] <- "DecisionMaking"
+names(Typical_Employee_Survey_Data)[8] <- "ParticipationBudgetaryDecisions"
+names(Typical_Employee_Survey_Data)[9] <- "LevelOfProud"
+names(Typical_Employee_Survey_Data)[10] <- "HowLikelytoTurnDownAJob"
+names(Typical_Employee_Survey_Data)[11] <- "WorkRelations"
+str(Typical_Employee_Survey_Data)
+```
+
+## Q2 5 Number Summaries and BoxPlots
+```{r}
+summary(Typical_Employee_Survey_Data$Age)
+boxplot(Typical_Employee_Survey_Data$Age, main = "Age")
+
+summary(Typical_Employee_Survey_Data$Gender)
+
+summary(Typical_Employee_Survey_Data$JobSatisfaction)
+
+summary(Typical_Employee_Survey_Data$ImportanceOfJobCharacteristic)
+
+summary(Typical_Employee_Survey_Data$YearsWorked)
+boxplot(Typical_Employee_Survey_Data$YearsWorked, main = "Years Worked")
+
+summary(Typical_Employee_Survey_Data$LikelyOfPromotion)
+
+summary(Typical_Employee_Survey_Data$DecisionMaking)
+
+summary(Typical_Employee_Survey_Data$ParticipationBudgetaryDecisions)
+
+summary(Typical_Employee_Survey_Data$LevelOfProud)
+
+summary(Typical_Employee_Survey_Data$HowLikelytoTurnDownAJob)
+
+summary(Typical_Employee_Survey_Data$WorkRelations)
+```
+
+## Q3 Factors
+```{r}
+Typical_Employee_Survey_Data$Gender <- factor(Typical_Employee_Survey_Data$Gender, levels = c(1,2), labels = c("Male","Female"))
+
+Typical_Employee_Survey_Data$JobSatisfaction <- factor(Typical_Employee_Survey_Data$JobSatisfaction, levels = c(1,2,3,4), labels = c("Very Satisfied", "Moderately Satisfied", "A Little Dissatisfied", "Very Dissatisfied"))
+
+Typical_Employee_Survey_Data$ImportanceOfJobCharacteristic <- factor(Typical_Employee_Survey_Data$ImportanceOfJobCharacteristic, levels = c(1,2,3,4,5), labels = c("High Income", "No Danger of Being Fired", "Flexible Hours", "Opportunities for Advancement", "Enjoying the Work"))
+
+Typical_Employee_Survey_Data$LikelyOfPromotion <- factor(Typical_Employee_Survey_Data$LikelyOfPromotion, levels = c(1,2,3,4,5), labels = c("Very Likely", "Likely", "Not Sure", "Unlikely", "Very Unlikely"))
+
+Typical_Employee_Survey_Data$DecisionMaking <- factor(Typical_Employee_Survey_Data$DecisionMaking, levels = c(1,2,3,4), labels = c("Always", "Much of the Time", "Sometimes", "Never"))
+
+Typical_Employee_Survey_Data$ParticipationBudgetaryDecisions <- factor(Typical_Employee_Survey_Data$ParticipationBudgetaryDecisions, levels = c(1,2), labels = c("Yes", "No"))
+
+Typical_Employee_Survey_Data$LevelOfProud <- factor(Typical_Employee_Survey_Data$LevelOfProud, levels = c(1,2,3,4), labels = c("Very proud", "Somewhat Proud", "Indifferent", "Not At All Proud"))
+
+Typical_Employee_Survey_Data$HowLikelytoTurnDownAJob <- factor(Typical_Employee_Survey_Data$HowLikelytoTurnDownAJob, levels = c(1,2,3,4,5), labels = c("Very Likely","Likely", "Not Sure", "Unlikely", "Very Unlikely"))
+
+Typical_Employee_Survey_Data$WorkRelations <- factor(Typical_Employee_Survey_Data$WorkRelations, levels = c(1,2,3,4,5), labels = c("Very Good","Good", "So So", "Bad", "Very Bad"))
+str(Typical_Employee_Survey_Data)
+```
+
+## Q4 Visuals
+```{r}
+# Age
+# Main Takeaway: 25% of employees are between 20 and 33 years old. 50% of employees are between the ages of approximately 33 and 44, while 25% are over 44.
+boxplot(Typical_Employee_Survey_Data$Age, main = "Age of Employees", xlab = "Employees", ylab = "Age", col = "Red")
+str(Typical_Employee_Survey_Data)
+
+# Gender
+# Main Takeaway: According to the pie chart majority of the employees are males (70 out of 122 employees). This is more than half of the employees, which is visuallt represented on the pie chart. 
+Gender_counts <-table(Typical_Employee_Survey_Data$Gender)
+print(Gender_counts)
+
+pie(Gender_counts, main = "Gender of Employees", col = c("blue","pink"), labels = paste(names(Gender_counts),"\n", Gender_counts), radius = 1)
+str(Typical_Employee_Survey_Data)
+
+# JobSatisfaction
+# Main Takeaway: Majority of the employees are very satisfied or moderately satisfied, which is a positive image for the firm. Less than 10 employees are a little dissatisfied and less than 10 are very dissatisfied. 
+Job_satisfaction_counts <- table(Typical_Employee_Survey_Data$JobSatisfaction)
+print(Job_satisfaction_counts)
+
+barplot(Job_satisfaction_counts, main = "Job Satisfaction", xlab = "Level of Satisfaction", ylab = "Number of Employees", col = "skyblue", border = "black", las = 0.5, cex.names=0.55, axis.lty = 2)
+str(Typical_Employee_Survey_Data)
+
+# ImportanceOfJobCharacteristic
+# Main Takeaway: The characteristic that is most important to employees is enjoying the work which was chosen by over 60 employees as can be seen on the barplot. The second most important characteristic to employees is a high income shown as the second tallest bar plot. 
+jobChar_counts <- table(Typical_Employee_Survey_Data$ImportanceOfJobCharacteristic)
+print(jobChar_counts)
+
+barplot(jobChar_counts, main = "Which Job Characteristic is Most Important", xlab = "Characteristic", ylab = "Most Important:by # of employees", col = "skyblue", border = "black", las = 0.5, cex.names=0.55, axis.lty = 2)
+str(Typical_Employee_Survey_Data)
+
+# YearsWorked
+# Main Takeaway: Most employees have worked for the firm for 5 years or less as shown by a frequency of over 60 employees. Less than 5 employees have worked at the firm for over 50 years, but those employees skewed the data to the right. 
+hist(Typical_Employee_Survey_Data$YearsWorked, main = "Distribution of Years Worked", xlab = "Years Worked", col = "purple", border = "black")
+str(Typical_Employee_Survey_Data)
+
+# LikelyOfPromotion 
+# Main Takeaway: There are between 25-30 employees who think they will likely recieve a promotion, and 25-30 employees who think they won't receive a promotion. Furthermore, there are over 35 employees who think it is highly unlikely they will receive a promotion. Overall, the employees are pretty split regarding whether think they will receive a promotion or not. 
+promotion_counts <-table(Typical_Employee_Survey_Data$LikelyOfPromotion)
+print(promotion_counts)
+
+barplot(promotion_counts, main = "Employees' Likelihood of Promotion", xlab = "Likelihood of Promotion", ylab = "Number of Employees", col = "yellow", border = "black", las = 0.5, cex.names = 0.5, axis.lty = 2)
+str(Typical_Employee_Survey_Data)
+
+# DecisionMaking 
+# Main Takeaway: Between 15 and 20 employees feel that the their job ALWAYS allows them to partake in making decisions that affect their work, while around 100 employees feel that their jobeither sometimes or most of the time allows them to make decisions that affect their work.   
+decisionMaking_counts <-table(Typical_Employee_Survey_Data$DecisionMaking)
+print(decisionMaking_counts)
+
+barplot(decisionMaking_counts, main = "Does Your Job Allow You to Make Decisions That Affect Your Work?", xlab = "Frequency of Participation", ylab = "Number of Employees", col = "green", border = "black", cex.names = 0.5)
+str(Typical_Employee_Survey_Data)
+
+# ParticipationBudgetaryDecisions
+# Main Takeaway: Although most employees participate in budgetary decisions, over 60 employees, it is still not a large percentage, it is closer to 50/50. 
+participation_counts <- table (Typical_Employee_Survey_Data$ParticipationBudgetaryDecisions)
+print(participation_counts)
+
+barplot(participation_counts, main = "Do You Participate in Budgetary Decisions?", xlab="Response", ylab="Number of Employees", col = c("blue", "red"), border = "black")
+str(Typical_Employee_Survey_Data)
+
+# LevelOfProud
+# Main Takeaway: Majority of employees are either very proud or somewhat proud to work for the organization, specifically a little over 100 employees. Out of those estimated 100, a little over 70 are somewhat proud.  
+proudLevel_counts <- table (Typical_Employee_Survey_Data$LevelOfProud)
+print(proudLevel_counts)
+
+barplot(proudLevel_counts, main = "Level of Proudness for Working at the Firm", xlab="Proud Levels", ylab="Number of Employees", col = c("blue"), border = "black", las = 0.5, cex.names = 0.5, axis.lty = 2)
+str(Typical_Employee_Survey_Data)
+
+# HowLikelyToTurnDownJob
+# Main Takeaway: 75 employees are either unlikely or very unlikely to turn down a higher paying job, and only 1 person is not sure. The remaining 46 employees will most likely or likely turn down the job. 
+turnDownjob_counts <-table(Typical_Employee_Survey_Data$HowLikelytoTurnDownAJob)
+print(turnDownjob_counts)
+
+pie(turnDownjob_counts, main = "Likeliness to Turn Down Higher Paying Job", col = c("green","pink","skyblue","purple","yellow"), labels = paste(names(turnDownjob_counts),"\n", turnDownjob_counts), radius = 1)
+str(Typical_Employee_Survey_Data)
+
+# WorkRelations
+# Main Takeaway: Around 100 employees have either very good or good relationships with their co-workers. Around 20 employees have so-so relationships, and less than 5 have bad or very bad relationships showing that most employees get along. 
+workrelations_counts <- table (Typical_Employee_Survey_Data$WorkRelations)
+print(workrelations_counts)
+
+barplot(workrelations_counts, main = "Relationships Among Coworkers", xlab ="Relationship Standing", ylab = "Number of Employees", col = c("blue"), border = "black", las = 0.5, cex.names = 0.65, axis.lty = 2)
+str(Typical_Employee_Survey_Data)
+```
+
+## Q5 Scatterplots
+```{r}
+# The correlation between age and years worked is weak, but positive. The older the employees, typically they have worked longer for the organization, however, the relationship is not visibly strong.     
+plot(Typical_Employee_Survey_Data$Age, Typical_Employee_Survey_Data$YearsWorked, main = "Relationship between Age and Years Worked", xlab = "Age", ylab = "Years Worked", pch = 16, col = "blue")
+str(Typical_Employee_Survey_Data)
+
+# Although it can be seen that majority of employees are either very or moderately satisfied, regardless of age, there are around 13 employees that are either a little dissatisfied or very dissatisfied between the ages of 25 and 50. Once again, the correlation between age and job satisfaction is weak. 
+library(ggplot2)
+ggplot(Typical_Employee_Survey_Data, aes(x = JobSatisfaction, y = Age)) +
+  geom_jitter(width = 0.5, height = 0.1, color = "blue", alpha = 0.6) +
+  labs(title = "Scatter Plot of Age vs. Job Satisfaction",
+       x = "Job Satisfaction Level",
+       y = "Age (Years)") +
+  theme_minimal()
+str(Typical_Employee_Survey_Data)
+
+```
